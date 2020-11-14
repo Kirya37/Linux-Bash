@@ -1,0 +1,30 @@
+Recovery grub on a failed partition.
+
+Chroot: Symptoms: Grab was updated improperly and system is failing to bot. Rescue
+system - boot from live CD (if you will use `ubuntu server` disk do not choose mount
+options in pseudo interface). Mount broken OS root partition. Use chroot command to
+get to your OS. Mount necessary folders with mount -o bind. Fix issue. Update grub.
+Reboot.
+
+1) gnome-terminal
+
+2) sudo fdisk -l #узнать таблицу разделов
+
+3) Примонтирование Linux-разделов. 
+sudo mount /dev/sda1 /mnt
+sudo mount --bind /dev /mnt/dev
+sudo mount --bind /proc /mnt/proc
+sudo mount --bind /sys /mnt/sys
+
+4) sudo chroot /mnt #перейти в окружение
+
+5) grub-install /dev/sda #установка GRUB
+
+6) exit
+
+7) Отмонтирование разделов
+sudo umount /mnt/dev
+sudo umount /mnt/proc
+sudo umount /mnt/sys
+
+8) sudo reboot

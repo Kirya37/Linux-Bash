@@ -1,0 +1,30 @@
+Tasks:
+1 - `cat` file ‘/etc/default/useradd’ and grep lines not started with ‘#’ and skip
+empty lines as well. The construction should be: `cat /etc/default/useradd
+| grep ... | grep ...`.
+
+cat /etc/default/useradd | grep -v '^#' | grep -v '^$'
+
+2 - Grep in file ‘/etc/default/useradd’ lines not started with ‘#’ and skip empty
+lines as well. Do it with only one grep command.
+
+grep -v '^#\|^$' /etc/default/useradd
+
+3 - awk
+    1. Get the list of the processes
+    2. Grep 'sshd -D' from it (you must have ssh server running on your host).
+You should get only one string (add additional step into your pipe)
+    3. Using `awk` get the path to executable file
+    4. Perform all steps in one pipe
+    
+ps aux   | grep 'sshd -D'|       head -1      | awk '{print $11}'
+
+процессы | шаблон поиска | только 1-ую строку | получение исполняемого пути
+    
+    
+d) cut
+    1. Using `date` command without any keys get the data
+    2. With `cut` command get the time
+    3. Perform in one pipe
+    
+date | cut -d ' ' -f 5

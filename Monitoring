@@ -1,0 +1,22 @@
+Monitoring: ps, top, htop, atop, iftop, iotop.
+
+#First of all, we need to install all the necessary packages.
+
+#With `ps` command get list of processes with users names, and with inheritageb).
+#Get list of processes for current user with `ps` command (not `whoami` will help you)
+sudo ps -fu $USER
+
+
+#Do the same with `htop`. Filter with ‘usr/lib’
+I did it by hand, clicking on the desired column, filtering the desired values
+
+
+#Run `atop` command. Set refresh interval to 5 seconds.
+sudo atop 5
+
+
+#Play with iftop. Specify the network interface and show ports as well as hosts
+sudo iftop -P 
+
+#Try `iotop` to analyze i/o for current user processes
+sudo iotop -u $USER

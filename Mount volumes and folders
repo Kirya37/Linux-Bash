@@ -1,0 +1,36 @@
+Mount volumes and folders: mount, bind, ln.
+
+
+#Create a file with size 1Gb and the name disk.img in /opt.
+sudo dd if=/dev/zero of=/opt/disk.img bs=1M count=1024 #bs-размер одного блока при копировании; count-необходимый размер выходного файла.
+
+
+#Format the EXT4 file system type in the disk.img image file with the mkfs utility
+sudo mkfs -t ext4 /opt/disk.img
+
+
+#Create a folder ‘/data’ in the root ‘/’ directory and mount this file as a volume
+sudo mkdir /data
+sudo mount -t auto -o loop /opt/disk.img /data
+
+
+#Configure it to mount automatically after reboot
+sudo echo "/opt/disk.img           /data    ext4   defaults                0 0" >> /etc/fstab #или вручную, что предпочтительней, учитывая корректность пробелов.
+
+
+#Add default nginx index.html in /data/site
+sudo mv index.html /data/site/
+
+
+#Create a symlinc with `ln` in /var/www/html to /data/site
+sudo ln -s /data/site /var/www/html
+
+
+#Mount /data to /mnt/data with `mount --bind` command
+sudo mkdir /mnt/data #если не существовало ранее.
+sudo mount --bind /data /mnt/data #--bind позволяет смонтировать часть ФС в другой каталог, не удаляя исходную точку монтирования
+
+
+#Suspend access to a filesystem with the `fsfreeze`. 
+#Test that filesystem inaccessible (you can't read and write there). Allow access.
+sudo fsfreeze -f /data  #запретить доступ к ФС. Ключ -u разблокирывает доступ. 
